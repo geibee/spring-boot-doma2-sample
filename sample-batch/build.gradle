@@ -10,13 +10,13 @@ dependencies {
     testImplementation "com.h2database:h2"
     testImplementation "org.springframework.boot:spring-boot-testcontainers"
     testImplementation "org.testcontainers:junit-jupiter"
-    testImplementation "org.testcontainers:mysql"
+    testImplementation "org.testcontainers:postgresql"
     testAnnotationProcessor "org.seasar.doma:doma-processor:${domaVersion}"
 }
 
 jib {
     from {
-        image = "public.ecr.aws/amazoncorretto/amazoncorretto:17"
+        image = "public.ecr.aws/amazoncorretto/amazoncorretto:21"
     }
     container {
         jvmFlags = [

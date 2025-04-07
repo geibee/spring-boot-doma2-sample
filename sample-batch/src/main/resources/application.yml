@@ -15,7 +15,7 @@ spring:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: org.postgresql.Driver
     hikari:
       autoCommit: false
       connectionTimeout: 30000
@@ -29,7 +29,7 @@ spring:
       # ジョブ管理テーブルを自動的に作成しないようにする
       initialize-schema: always
 doma:
-  dialect: mysql
+  dialect: postgres
   # 小文字のスネークケースに変換する（firstName → first_name）
   naming: SNAKE_LOWER_CASE
   # SQLファイルをキャッシュする

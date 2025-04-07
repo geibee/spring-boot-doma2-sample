@@ -57,7 +57,7 @@ public class UploadFilesController extends AbstractHtmlController {
 
     model.addAttribute("filenames", filenames);
 
-    return "modules/uploadFile/list";
+    return "modules/uploadfile/list";
   }
 
   /**

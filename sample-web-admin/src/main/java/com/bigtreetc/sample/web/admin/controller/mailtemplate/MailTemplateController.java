@@ -72,7 +72,7 @@ public class MailTemplateController extends AbstractHtmlController {
       model.addAttribute("mailTemplateForm", new MailTemplateForm());
     }
 
-    return "modules/mailTemplate/new";
+    return "modules/mailtemplate/new";
   }
 
   /**
@@ -138,7 +138,7 @@ public class MailTemplateController extends AbstractHtmlController {
     // 画面に検索結果を渡す
     model.addAttribute("pages", pages);
 
-    return "modules/mailTemplate/find";
+    return "modules/mailtemplate/find";
   }
 
   /**
@@ -176,7 +176,7 @@ public class MailTemplateController extends AbstractHtmlController {
   public String showMailTemplate(@PathVariable Long mailTemplateId, Model model) {
     val mailTemplate = mailTemplateService.findById(mailTemplateId);
     model.addAttribute("mailTemplate", mailTemplate);
-    return "modules/mailTemplate/show";
+    return "modules/mailtemplate/show";
   }
 
   /**
@@ -202,7 +202,7 @@ public class MailTemplateController extends AbstractHtmlController {
       modelMapper.map(mailTemplate, form);
     }
 
-    return "modules/mailTemplate/new";
+    return "modules/mailtemplate/new";
   }
 
   /**

@@ -7,7 +7,7 @@ buildscript {
 plugins {
     id "idea"
     id "org.springframework.boot" version "${springBootVersion}" apply false
-    id "org.owasp.dependencycheck" version "9.0.10" apply false
+    id "org.owasp.dependencycheck" version "10.0.4" apply false
     id "org.domaframework.doma.compile" version "3.0.1" apply false
     id "com.google.cloud.tools.jib" version "3.2.1" apply false
     id "com.avast.gradle.docker-compose" version "0.17.12" apply false
@@ -40,6 +40,8 @@ subprojects {
     spotless {
         java {
             googleJavaFormat()
+            removeUnusedImports()
+            importOrder()
             trimTrailingWhitespace()
             endWithNewline()
         }
@@ -67,7 +69,7 @@ subprojects {
         lineEndings "UNIX"
     }
 
-    sourceCompatibility = "17"
+    sourceCompatibility = "21"
     [compileJava, compileTestJava, compileGroovy, compileTestGroovy]*.options*.encoding = "UTF-8"
     [compileJava, compileTestJava, compileGroovy, compileTestGroovy]*.options*.compilerArgs = ["-parameters", "-Xlint:all"]
 

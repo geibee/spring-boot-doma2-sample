@@ -15,8 +15,9 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.Testcontainers;
 import org.testcontainers.containers.BrowserWebDriverContainer;
 import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
+import org.testcontainers.utility.DockerImageName;
 
 public class BaseTestContainerTest {
 
@@ -30,7 +31,8 @@ public class BaseTestContainerTest {
           .withCapabilities(chrome)
           .waitingFor(Wait.forLogMessage(".*Started Selenium Standalone.*", 1));
 
-  static final MySQLContainer<?> MYSQL_CONTAINER = new MySQLContainer<>("mysql:8.2");
+  static final PostgreSQLContainer<?> POSTGRESQL_CONTAINER =
+      new PostgreSQLContainer<>(DockerImageName.parse("postgres:16-alpine"));
 
   static final GenericContainer<?> MAILHOG_CONTAINER =
       new GenericContainer<>("mailhog/mailhog")
@@ -62,28 +64,28 @@ public class BaseTestContainerTest {
   @AfterAll
   void afterAll() {
     BROWSER_CONTAINER.stop();
-    MYSQL_CONTAINER.stop();
+    POSTGRESQL_CONTAINER.stop();
     MAILHOG_CONTAINER.stop();
   }
 
   @DynamicPropertySource
   static void overrideProperties(DynamicPropertyRegistry registry) {
-    MYSQL_CONTAINER.start();
+    POSTGRESQL_CONTAINER.start();
     MAILHOG_CONTAINER.start();
 
     registry.add(
         "spring.datasource.url",
         () ->
-            "jdbc:mysql://%s:%d/%s"
+            "jdbc:postgresql://%s:%d/%s"
                 .formatted(
-                    MYSQL_CONTAINER.getHost(),
-                    MYSQL_CONTAINER.getFirstMappedPort(),
-                    MYSQL_CONTAINER.getDatabaseName()));
-    registry.add("spring.datasource.username", MYSQL_CONTAINER::getUsername);
-    registry.add("spring.datasource.password", MYSQL_CONTAINER::getPassword);
-    registry.add("spring.flyway.url", MYSQL_CONTAINER::getJdbcUrl);
-    registry.add("spring.flyway.user", MYSQL_CONTAINER::getUsername);
-    registry.add("spring.flyway.password", MYSQL_CONTAINER::getPassword);
+                    POSTGRESQL_CONTAINER.getHost(),
+                    POSTGRESQL_CONTAINER.getFirstMappedPort(),
+                    POSTGRESQL_CONTAINER.getDatabaseName()));
+    registry.add("spring.datasource.username", POSTGRESQL_CONTAINER::getUsername);
+    registry.add("spring.datasource.password", POSTGRESQL_CONTAINER::getPassword);
+    registry.add("spring.flyway.url", POSTGRESQL_CONTAINER::getJdbcUrl);
+    registry.add("spring.flyway.user", POSTGRESQL_CONTAINER::getUsername);
+    registry.add("spring.flyway.password", POSTGRESQL_CONTAINER::getPassword);
 
     registry.add("spring.mail.host", MAILHOG_CONTAINER::getHost);
     registry.add("spring.mail.port", MAILHOG_CONTAINER::getFirstMappedPort);

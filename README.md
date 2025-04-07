@@ -49,7 +49,7 @@ $ ./gradlew :sample-batch:bootRun --args="--spring.batch.job.name=sendMailJob"
 #### データベース接続先
 
 ```bash
-mysql -h 127.0.0.1 -P 3306 -uroot -ppassw0rd spring-boot-doma2-sample
+PGPASSWORD=passw0rd psql -d sampledb -h 127.0.0.1 -p 5432 -U root
 ```
 
 #### ブラウザを用いた自動テスト（結合テスト）
@@ -57,14 +57,14 @@ mysql -h 127.0.0.1 -P 3306 -uroot -ppassw0rd spring-boot-doma2-sample
 
 | テスト対象| 実行方法|
 | :-----| :---------------------------------------|
-| 管理側画面| gradlew :it/sample-web-admin:test|
-| フロント側| gradlew :it/sample-web-front:test|
+| 管理側画面| gradlew :it:sample-web-admin:test|
+| フロント側| gradlew :it:sample-web-front:test|
 
 ※ IntelliJから起動する場合は他のテストと同様にテストクラスを選択して実行してください
 
 CIなどで結合テストを行わない場合は以下のようにして対象から外します
 ```bash
-$ ./gradlew clean test --info -x :it/sample-web-admin:test -x :it/sample-web-front:test
+$ ./gradlew clean test --info -x :it:sample-web-admin:test -x :it:sample-web-front:test
 ```
 
 ### コード自動生成（おまけ）

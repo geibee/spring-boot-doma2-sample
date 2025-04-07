@@ -26,7 +26,7 @@ spring:
       repositories:
         enabled: false
 doma:
-  dialect: mysql
+  dialect: postgres
   # 小文字のスネークケースに変換する（firstName → first_name）
   naming: SNAKE_LOWER_CASE
   # バルクインサート・アップデートのサイズ
